@@ -77,9 +77,10 @@ interface ITextAreaLimitationOption {
 ## Events
 All event set the ```this``` to the current TextArea
 ### Invalid
-Throw when validation state change.
+Throw when validation state change.<br/>
 Parameters: 
 - state: string ('valid' or 'invalid')
+
 <b>in param:</b>
 ```
 {
@@ -95,14 +96,15 @@ Parameters:
     }
 }
 ```
-<b>JQuery event:</b>
+<br/><b>JQuery event:</b><br/>
 ``` element.on('cs.TextAreaLimitation.Invalid', function(event, state){ }; ```
 
 ### InvalidLineLength
-Throw when validation state change.
+Throw when validation state change.<br/>
 Parameters: 
 - lineNumber : number (the line number of the failed text length [0 based])
 - lineText : string (the text)
+
 <b>in param:</b>
 ```
 {
@@ -110,13 +112,14 @@ Parameters:
     }
 }
 ```
-<b>JQuery event:</b>
+<b>JQuery event:</b><br/>
 ``` element.on('cs.TextAreaLimitation.InvalidLineLength', function(event, lineNumber, lineText){ }; ```
 
 ### InvalidLines
-Throw when the total line exceed the maximum alowed.
+Throw when the total line exceed the maximum alowed.<br/>
 Parameters: 
 - lineCount: number (current line count)
+
 <b>in param:</b>
 ```
 {
