@@ -11,7 +11,8 @@ Provide helper to limit text input in Html TextArea
 <script src="/Scripts/TextAreaLimitation.js"></script>
 <script>
     $(function () {
-        var t = new TextAreaLimitation($('.TextAreaLimitation'));
+        var t = new TextAreaLimitation($('.TextAreaLimitation'), 'fr'); //French
+        var t = new TextAreaLimitation($('.TextAreaLimitation')); //English
     });
 </script>
 ```
