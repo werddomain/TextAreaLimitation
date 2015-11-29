@@ -3,6 +3,7 @@ Provide helper to limit text input in Html TextArea.
 This helper allow to limit text lenght per line and the total number of line.
 It cancel user input if the current line exceed the maximum and popup validation error(as a popover) if the user paste text.
 
+## [JsFidler](http://jsfiddle.net/werddomain/6eaa6bfu/)
 
 ## Dependencies
 - [jQuery](https://github.com/jquery/jquery) (1.6+)
