@@ -68,7 +68,7 @@ interface ITextAreaLimitationOption {
 |:----|----|----|----|----:|
 |maxLines |data-maxlines |number | null| Max Lines.<br/>If null, the rule do not aply.|
 |maxCharPerLines |data-maxcharperlines |number | null| Caraters per lines.<br/> If null, the rule do not aply.|
-|popOverPosition | data-popoverposition | string | 'top'| The [bootstrap popover](http://getbootstrap.com/javascript/#popovers) position.|
+|popOverPosition | data-popoverposition | string | 'top'| The [bootstrap popover](http://getbootstrap.com/javascript/#popovers-options) placement parameter.|
 |lang | data-lang |string | 'en'| Set the lang for the display message.|
 |usePopOver | data-usepopover |boolean | true| If false, the popOver will not be displayed on validation error|
 |onInvalid | n/a |function | null| On validation Error <br/> [info](#invalid)|
