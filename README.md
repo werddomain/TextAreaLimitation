@@ -59,3 +59,5 @@ When the text inside the text area is invalid:
 - The textarea will throw the `cs.TextAreaLimitation` event.
 - The form-group container will have the `has-error` class.
 
+## license
+This code is free to use, under the MIT license
