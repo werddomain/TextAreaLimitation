@@ -5,7 +5,8 @@ class TextAreaLimitation {
     isInError: boolean;
     formGroup: JQuery;
     textArea: HTMLTextAreaElement;
-    constructor(public Element: JQuery) {
+   
+    constructor(public Element: JQuery, public lang: string = 'en') {
 
         if (Element.length > 1) {
             Element.each((index, element) => {
@@ -107,7 +108,7 @@ class TextAreaLimitation {
     displayErrorLenghtMessage(lineNumber: number, lineText: string) {
 
         var errorMessage = "";
-        if (Params.LangId == "fr") {
+        if (this.lang == "fr") {
             errorMessage = "Chaque ligne ne doit pas dépasser " + this.maxCharPerLines + " caractères par ligne.<br />La ligne " + (lineNumber + 1) + " dépasse ce maximum. Elle a " + lineText.length + " caractères.<br / ><blockquote><p>" + lineText + "</p><footer>" + (this.maxCharPerLines - lineText.length) + " caractères de trop.</foorter></blockquote>"
         }
         else {
@@ -127,7 +128,7 @@ class TextAreaLimitation {
     };
     displayLinexExceedError(lineCount: number) {
         var errorMessage = "";
-        if (Params.LangId == "fr") {
+        if (this.lang == "fr") {
             errorMessage = "Vous devez entrer un maximum de " + this.maxLines + " lignes.<br />Votre texte  contient " + lineCount.toString() + " lignes.";
         }
         else {

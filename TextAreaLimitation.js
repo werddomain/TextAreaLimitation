@@ -1,7 +1,9 @@
 var TextAreaLimitation = (function () {
-    function TextAreaLimitation(Element) {
+    function TextAreaLimitation(Element, lang) {
         var _this = this;
+        if (lang === void 0) { lang = 'en'; }
         this.Element = Element;
+        this.lang = lang;
         if (Element.length > 1) {
             Element.each(function (index, element) {
                 var d = new TextAreaLimitation($(element));
@@ -99,7 +101,7 @@ var TextAreaLimitation = (function () {
     TextAreaLimitation.prototype.displayErrorLenghtMessage = function (lineNumber, lineText) {
         var _this = this;
         var errorMessage = "";
-        if (Params.LangId == "fr") {
+        if (this.lang == "fr") {
             errorMessage = "Chaque ligne ne doit pas dépasser " + this.maxCharPerLines + " caractères par ligne.<br />La ligne " + (lineNumber + 1) + " dépasse ce maximum. Elle a " + lineText.length + " caractères.<br / ><blockquote><p>" + lineText + "</p><footer>" + (this.maxCharPerLines - lineText.length) + " caractères de trop.</foorter></blockquote>";
         }
         else {
@@ -121,7 +123,7 @@ var TextAreaLimitation = (function () {
     TextAreaLimitation.prototype.displayLinexExceedError = function (lineCount) {
         var _this = this;
         var errorMessage = "";
-        if (Params.LangId == "fr") {
+        if (this.lang == "fr") {
             errorMessage = "Vous devez entrer un maximum de " + this.maxLines + " lignes.<br />Votre texte  contient " + lineCount.toString() + " lignes.";
         }
         else {
