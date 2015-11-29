@@ -15,7 +15,7 @@ It cancel user input if the current line exceed the maximum and popup validation
 <script>
     $(function () {
         var element = $('.TextAreaLimitation');
-        var t = new TextAreaLimitation(element, 'fr'); //French
+        var t = new TextAreaLimitation(element, {lang: 'fr'}); //French
         var t2 = new TextAreaLimitation(element); //English
         element.on('cs.TextAreaLimitation', function(state){
             if (state == 'valid')
@@ -32,14 +32,100 @@ It cancel user input if the current line exceed the maximum and popup validation
 </script>
 ```
 ## Property
-|Property |Data |Type |Default Value |Description | 
+property can be acceded by the object returned by the instance:
+```
+var t = new TextAreaLimitation(element);
+t.propertyName = 'myValue';
+```
+|Property |Type |Default Value |Description | 
+|:----|----|----|----:|
+|param |ITextAreaLimitationOption | null| Caraters per lines.<br/> If null, the rule do not aply.|
+|isInError |boolean | null| Get if the current state is in error.|
+|formGroup |JQuery | n/a| Get the form-group container.|
+|textArea |HTMLTextAreaElement | n/a| Get the current textArea element.|
+
+## Parameters (ITextAreaLimitationOption)
+```
+var t = new TextAreaLimitation(element,{lang: 'fr'});
+t.param.lang = 'fr';
+```
+### TypeScript definition
+```
+interface ITextAreaLimitationOption {
+    popOverPosition?: string;
+    onInvalid?(state: string): void;
+    onInvalidLineLength?(lineNumber: number, lineText: string): void;
+    onInvalidLines?(lineCount: string): void;
+    usePopOver?: boolean;
+    lang?: string;
+    maxLines: number;
+    maxCharPerLines: number;
+}
+```
+### List of parameters
+|Name |Data |Type |Default Value |Description | 
 |:----|----|----|----|----:|
 |maxLines |data-maxlines |number | null| Max Lines.<br/>If null, the rule do not aply.|
-|maxCharPerLines |data-charperline |number | null| Caraters per lines.<br/> If null, the rule do not aply.|
-|isInError | n/a|boolean | null| Get if the current state is in error.|
-|formGroup | n/a|JQuery | n/a| Get the form-group container.|
-|textArea | n/a|HTMLTextAreaElement | n/a| Get the current textArea element.|
+|maxCharPerLines |data-maxcharperlines |number | null| Caraters per lines.<br/> If null, the rule do not aply.|
+|popOverPosition | data-popoverposition | string | 'top'| The [bootstrap popover](http://getbootstrap.com/javascript/#popovers) position.|
+|lang | data-lang |string | 'en'| Set the lang for the display message.|
+|usePopOver | data-usepopover |boolean | true| If false, the popOver will not be displayed on validation error|
+|onInvalid | n/a |function | null| On validation Error <br/> [info](#invalid)|
+|onInvalidLineLength | n/a |function | null| On validation Error in a line length<br/> [info](#invalidlinelength)|
+|onInvalidLines | n/a |function | null| On validation Error in total lines<br/> [info](#invalidlines)|
 
+## Events
+All event set the ```this``` to the current TextArea
+### Invalid
+Throw when validation state change.
+Parameters: 
+- state: string ('valid' or 'invalid')
+<b>in param:</b>
+```
+{
+    onInvalid: function(state){
+        if (state == 'valid')
+            {
+                //state pass from invalid to valid
+            }
+            if (state == 'invalid')
+            {
+                //state of textArea is invalid
+            }
+    }
+}
+```
+<b>JQuery event:</b>
+``` element.on('cs.TextAreaLimitation.Invalid', function(event, state){ }; ```
+
+### InvalidLineLength
+Throw when validation state change.
+Parameters: 
+- lineNumber : number (the line number of the failed text length [0 based])
+- lineText : string (the text)
+<b>in param:</b>
+```
+{
+    onInvalidLineLength: function(lineNumber, lineText){
+    }
+}
+```
+<b>JQuery event:</b>
+``` element.on('cs.TextAreaLimitation.InvalidLineLength', function(event, lineNumber, lineText){ }; ```
+
+### InvalidLines
+Throw when the total line exceed the maximum alowed.
+Parameters: 
+- lineCount: number (current line count)
+<b>in param:</b>
+```
+{
+    onInvalidLines: function(lineCount){
+    }
+}
+```
+<b>JQuery event:</b>
+``` element.on('cs.TextAreaLimitation.InvalidLines', function(event, lineCount){ }; ```
 
 ## Note
 If textarea is not in a form-group container, it will be added.
