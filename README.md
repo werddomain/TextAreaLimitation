@@ -46,9 +46,10 @@ t.propertyName = 'myValue';
 |textArea |HTMLTextAreaElement | n/a| Get the current textArea element.|
 
 ## Parameters (ITextAreaLimitationOption)
+Parameters can be changed after initialize
 ```
 var t = new TextAreaLimitation(element,{lang: 'fr'});
-t.param.lang = 'fr';
+t.param.lang = 'en';
 ```
 ### TypeScript definition
 ```
