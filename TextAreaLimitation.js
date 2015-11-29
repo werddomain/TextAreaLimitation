@@ -46,7 +46,7 @@ var TextAreaLimitation = (function () {
                 var text = _this.validateText(true, lines);
                 if (text && linesValidation)
                     if (_this.isInError) {
-                        _this.Element.trigger("cs.TextAreaLimitation", "valid");
+                        _this.Element.trigger("cs.TextAreaLimitation", ["valid"]);
                         _this.Element.removeClass("cs-invalid");
                         _this.isInError = false;
                         _this.formGroup.removeClass('has-error');
@@ -123,7 +123,7 @@ var TextAreaLimitation = (function () {
             });
             _this.Element.popover('show');
         }, 300);
-        this.Element.trigger("cs.TextAreaLimitation", "invalid");
+        this.Element.trigger("cs.TextAreaLimitation", ["invalid"]);
     };
     ;
     TextAreaLimitation.prototype.displayLinesExceedError = function (lineCount) {
@@ -145,7 +145,7 @@ var TextAreaLimitation = (function () {
             });
             _this.Element.popover('show');
         }, 300);
-        this.Element.trigger("cs.TextAreaLimitation", "invalid");
+        this.Element.trigger("cs.TextAreaLimitation", ["invalid"]);
     };
     ;
     return TextAreaLimitation;

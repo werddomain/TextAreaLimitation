@@ -51,7 +51,7 @@ class TextAreaLimitation {
                 var text = this.validateText(true, lines);
                 if (text && linesValidation)
                     if (this.isInError) {
-                        this.Element.trigger("cs.TextAreaLimitation", "valid");
+                        this.Element.trigger("cs.TextAreaLimitation", ["valid"]);
                         this.Element.removeClass("cs-invalid");
                         this.isInError = false;
                         this.formGroup.removeClass('has-error');
@@ -132,7 +132,7 @@ class TextAreaLimitation {
             });
             this.Element.popover('show');
         }, 300);
-        this.Element.trigger("cs.TextAreaLimitation", "invalid");
+        this.Element.trigger("cs.TextAreaLimitation", ["invalid"]);
     };
     displayLinesExceedError(lineCount: number) {
         var errorMessage = "";
@@ -152,7 +152,7 @@ class TextAreaLimitation {
             });
             this.Element.popover('show');
         }, 300);
-        this.Element.trigger("cs.TextAreaLimitation", "invalid");
+        this.Element.trigger("cs.TextAreaLimitation", ["invalid"]);
 
     };
 } 
