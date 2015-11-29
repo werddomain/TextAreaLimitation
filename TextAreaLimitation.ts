@@ -30,7 +30,7 @@ class TextAreaLimitation {
             Element.keydown((e) => {
                 if (e.ctrlKey)
                     return;
-                if (e.keyCode === 46 || e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40 || e.keyCode === 16 || e.keyCode === 17 || e.keyCode === 18) // ARROW LEFT or ARROW RIGHT or SHIFT key
+                if (e.keyCode === 46 || e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40 || e.keyCode === 16 || e.keyCode === 17 || e.keyCode === 18) // ARROWS and others non caractrers keys
                     return;
                 if (e.keyCode === 8) //backspace
                     return;
@@ -45,14 +45,14 @@ class TextAreaLimitation {
                 var lines = this.getInfo();
                 var linesValidation = this.validateLinesLenght(lines, true);
                 if (!linesValidation) {
-                    this.displayLinexExceedError(lines.length);
+                    this.displayLinesExceedError(lines.length);
                     return;
                 }
                 var text = this.validateText(true, lines);
                 if (text && linesValidation)
                     if (this.isInError) {
                         this.Element.trigger("cs.TextAreaLimitation", "valid");
-
+                        this.Element.removeClass("cs-invalid");
                         this.isInError = false;
                         this.formGroup.removeClass('has-error');
                         this.Element.popover('hide');
@@ -82,6 +82,7 @@ class TextAreaLimitation {
             if ((isFromChange && l > this.maxCharPerLines)) {
                 this.isInError = true;
                 this.formGroup.addClass('has-error');
+                this.Element.addClass("cs-invalid");
                 this.displayErrorLenghtMessage(i, info[i]);
                 return false;
             }
@@ -91,11 +92,18 @@ class TextAreaLimitation {
         return true;
     };
     validateLinesLenght(lines: Array<string>, isFromChange: boolean, keypress?: number): boolean {
+
         if (this.maxLines == null)
             return true;
-        if (lines.length > this.maxLines)
-            return false;
-        if (keypress != null && keypress === 13 && lines.length + 1 > this.maxLines) {
+       
+        if ((lines.length > this.maxLines) || (keypress != null && keypress === 13 && lines.length + 1 > this.maxLines)) {
+            if (isFromChange)
+            {
+                this.isInError = true;
+                this.formGroup.addClass('has-error');
+                this.Element.addClass("cs-invalid");
+                this.displayLinesExceedError(lines.length);
+            }
             return false;
         }
         return true;
@@ -126,7 +134,7 @@ class TextAreaLimitation {
         }, 300);
         this.Element.trigger("cs.TextAreaLimitation", "invalid");
     };
-    displayLinexExceedError(lineCount: number) {
+    displayLinesExceedError(lineCount: number) {
         var errorMessage = "";
         if (this.lang == "fr") {
             errorMessage = "Vous devez entrer un maximum de " + this.maxLines + " lignes.<br />Votre texte  contient " + lineCount.toString() + " lignes.";

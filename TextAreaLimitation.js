@@ -40,13 +40,14 @@ var TextAreaLimitation = (function () {
                 var lines = _this.getInfo();
                 var linesValidation = _this.validateLinesLenght(lines, true);
                 if (!linesValidation) {
-                    _this.displayLinexExceedError(lines.length);
+                    _this.displayLinesExceedError(lines.length);
                     return;
                 }
                 var text = _this.validateText(true, lines);
                 if (text && linesValidation)
                     if (_this.isInError) {
                         _this.Element.trigger("cs.TextAreaLimitation", "valid");
+                        _this.Element.removeClass("cs-invalid");
                         _this.isInError = false;
                         _this.formGroup.removeClass('has-error');
                         _this.Element.popover('hide');
@@ -74,6 +75,7 @@ var TextAreaLimitation = (function () {
             if ((isFromChange && l > this.maxCharPerLines)) {
                 this.isInError = true;
                 this.formGroup.addClass('has-error');
+                this.Element.addClass("cs-invalid");
                 this.displayErrorLenghtMessage(i, info[i]);
                 return false;
             }
@@ -84,9 +86,13 @@ var TextAreaLimitation = (function () {
     TextAreaLimitation.prototype.validateLinesLenght = function (lines, isFromChange, keypress) {
         if (this.maxLines == null)
             return true;
-        if (lines.length > this.maxLines)
-            return false;
-        if (keypress != null && keypress === 13 && lines.length + 1 > this.maxLines) {
+        if ((lines.length > this.maxLines) || (keypress != null && keypress === 13 && lines.length + 1 > this.maxLines)) {
+            if (isFromChange) {
+                this.isInError = true;
+                this.formGroup.addClass('has-error');
+                this.Element.addClass("cs-invalid");
+                this.displayLinesExceedError(lines.length);
+            }
             return false;
         }
         return true;
@@ -120,7 +126,7 @@ var TextAreaLimitation = (function () {
         this.Element.trigger("cs.TextAreaLimitation", "invalid");
     };
     ;
-    TextAreaLimitation.prototype.displayLinexExceedError = function (lineCount) {
+    TextAreaLimitation.prototype.displayLinesExceedError = function (lineCount) {
         var _this = this;
         var errorMessage = "";
         if (this.lang == "fr") {
