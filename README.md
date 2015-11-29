@@ -34,8 +34,8 @@ It cancel user input if the current line exceed the maximum and popup validation
 ## Property
 |Property |Data |Type |Default Value |Description | 
 |:----|----|----|----|----:|
-|maxLines |data-maxlines |number | null| Max Lines, if null rule do not aply|
-|maxCharPerLines |data-charperline |number | null| Caraters per lines, if null rule do not aply|
+|maxLines |data-maxlines |number | null| Max Lines.<br/>If null rule do not aply|
+|maxCharPerLines |data-charperline |number | null| Caraters per lines.<br/> If null rule do not aply|
 |isInError | n/a|boolean | null| Get if the current state is in error|
 |formGroup | n/a|JQuery | n/a| Get the form-group container|
 |textArea | n/a|HTMLTextAreaElement | n/a| Get the current textArea element|
