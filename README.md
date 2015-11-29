@@ -100,7 +100,7 @@ Parameters:
 ``` element.on('cs.TextAreaLimitation.Invalid', function(event, state){ }; ```
 
 ### InvalidLineLength
-Throw when validation state change.<br/>
+Throw when a line exceed the maximum text length.<br/>
 Parameters: 
 - lineNumber : number (the line number of the failed text length [0 based])
 - lineText : string (the text)
