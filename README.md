@@ -54,4 +54,8 @@ will be replaced by:
 ```
 
 ## Validation
-The textarea will have the class invalid
+When the text inside the text area is invalid:
+- The textarea will have the `cs-invalid` class.
+- The textarea will throw the `cs.TextAreaLimitation` event.
+- The form-group container will have the `has-error` class.
+
