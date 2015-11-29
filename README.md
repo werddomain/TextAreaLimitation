@@ -1,5 +1,8 @@
 # TextAreaLimitation
-Provide helper to limit text input in Html TextArea
+Provide helper to limit text input in Html TextArea.
+This helper allow to limit text lenght per line and the total number of line.
+It cancel user input if the current line exceed the maximum and popup validation error(as a popover) if the user paste text.
+
 
 ## Dependencies:
 - [jQuery](https://github.com/jquery/jquery) (1.6+)
@@ -11,8 +14,44 @@ Provide helper to limit text input in Html TextArea
 <script src="/Scripts/TextAreaLimitation.js"></script>
 <script>
     $(function () {
-        var t = new TextAreaLimitation($('.TextAreaLimitation'), 'fr'); //French
-        var t = new TextAreaLimitation($('.TextAreaLimitation')); //English
+        var element = $('.TextAreaLimitation');
+        var t = new TextAreaLimitation(element, 'fr'); //French
+        var t2 = new TextAreaLimitation(element); //English
+        element.on('cs.TextAreaLimitation', function(state){
+            if (state == 'valid')
+            {
+                //state pass from invalid to valid
+            }
+            if state == 'invalid')
+            {
+                //state of textArea is invalid
+            }
+        });
+        t.maxLines = 10; //You can change rules without re-initialise it.
     });
 </script>
 ```
+## Property
+|Name |Type |Default Value |Description | 
+|:----|----|----|----:|
+|maxLines |number | null| Max Lines, if null rule do not aply|
+|maxCharPerLines |number | null| Caraters per lines, if null rule do not aply|
+|isInError |boolean | null| Get if the current state is in error|
+|formGroup |JQuery | n/a| Get the form-group container|
+|textArea |HTMLTextAreaElement | n/a| Get the current textArea element|
+
+
+## Note:
+If textarea is not in a form-group container, it will be added.
+```
+<textarea class="TextAreaLimitation" data-maxlines="5" data-charperline="10"></textarea>
+```
+will be replaced by:
+```
+<div class='form-group'>
+    <textarea class="TextAreaLimitation form-control" data-maxlines="5" data-charperline="10"></textarea>
+</div>
+```
+
+## Validation
+The textarea will have the class invalid
