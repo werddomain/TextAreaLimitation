@@ -4,11 +4,11 @@ This helper allow to limit text lenght per line and the total number of line.
 It cancel user input if the current line exceed the maximum and popup validation error(as a popover) if the user paste text.
 
 
-## Dependencies:
+## Dependencies
 - [jQuery](https://github.com/jquery/jquery) (1.6+)
 - [Bootstrap 3](https://github.com/twbs/bootstrap) (For error display)
 
-## Usage :
+## Usage
 ```
 <textarea class="TextAreaLimitation" data-maxlines="5" data-charperline="10"></textarea>
 <script src="/Scripts/TextAreaLimitation.js"></script>
@@ -41,7 +41,7 @@ It cancel user input if the current line exceed the maximum and popup validation
 |textArea |HTMLTextAreaElement | n/a| Get the current textArea element|
 
 
-## Note:
+## Note
 If textarea is not in a form-group container, it will be added.
 ```
 <textarea class="TextAreaLimitation" data-maxlines="5" data-charperline="10"></textarea>
