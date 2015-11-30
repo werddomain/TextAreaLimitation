@@ -75,6 +75,7 @@ interface ITextAreaLimitationOption {
 |onInvalid | n/a |function | null| On validation Error <br/> [info](#invalid)|
 |onInvalidLineLength | n/a |function | null| On validation Error in a line length<br/> [info](#invalidlinelength)|
 |onInvalidLines | n/a |function | null| On validation Error in total lines<br/> [info](#invalidlines)|
+|onKeyDownCanceled | n/a |function | null| When we cancel the keyDown event<br/> [info](#keydowncanceled)|
 
 ## Events
 All event set the ```this``` to the current TextArea
@@ -131,6 +132,21 @@ Parameters:
 ```
 <b>JQuery event:</b>
 ``` element.on('cs.TextAreaLimitation.InvalidLines', function(event, lineCount){ }; ```
+
+### KeyDownCanceled
+Throw when we cancel the keydown. Can be maximum line lenght or maximum lines reach.<br/>
+Parameters: 
+- NONE
+
+<b>in param:</b>
+```
+{
+    onKeyDownCanceled: function(){
+    }
+}
+```
+<b>JQuery event:</b>
+``` element.on('cs.TextAreaLimitation.KeyDownCanceled', function(event){ }; ```
 
 ## Note
 If textarea is not in a form-group container, it will be added.
