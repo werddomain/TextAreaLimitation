@@ -22,6 +22,7 @@ var TextAreaLimitation = (function () {
     }
     TextAreaLimitation.prototype.registerEvents = function () {
         var _this = this;
+        var KeyUpCancelText = null;
         this.Element.keydown(function (e) {
             if (e.ctrlKey)
                 return;
@@ -31,10 +32,34 @@ var TextAreaLimitation = (function () {
                 return;
             var lines = _this.getInfo();
             var linesValidation = _this.validateLinesLenght(lines, false, e.keyCode);
+            var valide = true;
             if (!linesValidation)
+                valide = false;
+            if (e.keyCode !== 13) {
+                var valideText = _this.validateText(false, lines);
+                if (!valideText)
+                    valide = false;
+            }
+            if (!valide) {
+                KeyUpCancelText = _this.Element.val();
+                setTimeout(function () {
+                    //run this in a timeout to prevent wait to long before returning the false.
+                    //here if we wait to long, the keydown is not canceled.
+                    _this.Element.trigger("cs.TextAreaLimitation.KeyDownCanceled", ["valid"]);
+                    if (_this.param.onKeyDownCanceled != null && $.isFunction(_this.param.onKeyDownCanceled))
+                        _this.param.onKeyDownCanceled.call(_this.Element);
+                }, 100);
+                e.preventDefault();
+                e.returnValue = false;
+                //alert('KeyDown cancelled');
                 return false;
-            if (e.keyCode !== 13)
-                return _this.validateText(false, lines);
+            }
+        });
+        this.Element.keyup(function (e) {
+            //A hack for mobile. Some mobile dont take the cancel on keyDown
+            if (KeyUpCancelText != null && _this.Element.val() != KeyUpCancelText)
+                _this.Element.val(KeyUpCancelText);
+            KeyUpCancelText = null;
         });
         this.Element.change(function () {
             var lines = _this.getInfo();
@@ -96,9 +121,12 @@ var TextAreaLimitation = (function () {
         var currentLine = this.getLineNumber() - 1;
         for (var i = 0; i < info.length; i++) {
             l = info[i].length;
-            if (!isFromChange && l + 1 > this.param.maxCharPerLines && currentLine == i)
+            if (!isFromChange && l + 1 > this.param.maxCharPerLines && currentLine == i) {
+                //alert("max text reach");
                 return false;
+            }
             if ((isFromChange && l > this.param.maxCharPerLines)) {
+                //alert("max text reach");
                 this.isInError = true;
                 this.formGroup.addClass('has-error');
                 this.Element.addClass("cs-invalid");

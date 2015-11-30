@@ -3,6 +3,8 @@
     onInvalid?(state: string): void;
     onInvalidLineLength?(lineNumber: number, lineText: string): void;
     onInvalidLines?(lineCount: string): void;
+    onKeyDownCanceled?(): void;
+
     usePopOver?: boolean;
     lang?: string;
     maxLines: number;
@@ -39,6 +41,7 @@ class TextAreaLimitation {
 
     }
     registerEvents() {
+        var KeyUpCancelText: string = null;
         this.Element.keydown((e) => {
             if (e.ctrlKey)
                 return;
@@ -48,10 +51,35 @@ class TextAreaLimitation {
                 return;
             var lines = this.getInfo();
             var linesValidation = this.validateLinesLenght(lines, false, e.keyCode);
+            var valide = true;
             if (!linesValidation)
+                valide = false;
+            if (e.keyCode !== 13) {
+                var valideText = this.validateText(false, lines);
+                if (!valideText)
+                    valide = false;
+            }
+            if (!valide)
+            {
+                KeyUpCancelText = this.Element.val();
+                setTimeout(() => {
+                    //run this in a timeout to prevent wait to long before returning the false.
+                    //here if we wait to long, the keydown is not canceled.
+                    this.Element.trigger("cs.TextAreaLimitation.KeyDownCanceled", ["valid"]);
+                    if (this.param.onKeyDownCanceled != null && $.isFunction(this.param.onKeyDownCanceled))
+                        this.param.onKeyDownCanceled.call(this.Element); 
+                }, 100);
+                e.preventDefault();
+                e.returnValue = false;
+                //alert('KeyDown cancelled');
                 return false;
-            if (e.keyCode !== 13)
-                return this.validateText(false, lines);
+            }
+        });
+        this.Element.keyup((e) => {
+            //A hack for mobile. Some mobile dont take the cancel on keyDown
+            if (KeyUpCancelText != null && this.Element.val() != KeyUpCancelText)
+                this.Element.val(KeyUpCancelText);
+            KeyUpCancelText = null;
         });
         this.Element.change(() => {
             var lines = this.getInfo();
@@ -100,7 +128,7 @@ class TextAreaLimitation {
             this.param.lang = this.Element.data('lang');
         if (this.hasData('usepopover'))
             this.param.usePopOver = ("" + this.Element.data('usepopover')).toLowerCase() == "true";
-
+        
     }
     hasData(Data) {
         if (typeof this.Element.data(Data) !== 'undefined')
@@ -118,9 +146,12 @@ class TextAreaLimitation {
         var currentLine = this.getLineNumber() - 1;
         for (var i = 0; i < info.length; i++) {
             l = info[i].length;
-            if (!isFromChange && l + 1 > this.param.maxCharPerLines && currentLine == i)
+            if (!isFromChange && l + 1 > this.param.maxCharPerLines && currentLine == i) {
+                //alert("max text reach");
                 return false;
+            }
             if ((isFromChange && l > this.param.maxCharPerLines)) {
+                //alert("max text reach");
                 this.isInError = true;
                 this.formGroup.addClass('has-error');
                 this.Element.addClass("cs-invalid");
